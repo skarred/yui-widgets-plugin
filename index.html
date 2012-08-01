@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Yui-widgets-plugin : A WordPress Plugin to put YUI3 widgets on posts and pages." />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Yui-widgets-plugin</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/skarred/yui-widgets-plugin">View on GitHub</a>
+
+          <h1 id="project_title">Yui-widgets-plugin</h1>
+          <h2 id="project_tagline">A WordPress Plugin to put YUI3 widgets on posts and pages.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/skarred/yui-widgets-plugin/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/skarred/yui-widgets-plugin/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>yui-widgets-plugin</h1>
+
+<p>With this WordPress Plugin, users can add YUI widgets to their posts and pages.</p>
+
+<h2>Supported YUI Widgets</h2>
+
+<ul>
+<li> Charts<br><ul>
+<li> Pie charts<br>
+</li>
+<li> Multiple series charts<br>
+</li>
+<li> supports<br><ul>
+<li> legend<br>
+</li>
+<li> markers<br>
+</li>
+<li> customization<br>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li> DataTables<br><ul>
+<li> Sortable<br>
+</li>
+</ul>
+</li>
+<li> TabView<br><ul>
+<li> HTML markup in tab panels<br>
+</li>
+<li> Chart and DataTable widgets in tab panels<br>
+</li>
+</ul>
+</li>
+</ul><h2>Use shortcodes to add a widget to your post</h2>
+
+<h3>Available Shortcodes</h3>
+
+<ul>
+<li> [yuichart]<br>
+</li>
+<li> [yuidatatable]<br>
+</li>
+<li> [yuitabview][yuitab title='Tab1']...[/yuitab][yuitab title='Tab2']...[/yuitab][/yuitabview]<br>
+</li>
+</ul><h2>Examples</h2>
+
+<h3>The yuichart Shortcode</h3>
+
+<ol>
+<li>
+<p>A Pie Chart  </p>
+
+<pre><code>[yuichart  
+    title='Weekday Taxes'  
+    type='pie'  
+    cataxistitle='Month'  
+    valueaxis1title='Sales'  
+    valueaxis1prefix = '$'  
+    filename = 'pieChart.csv'  
+    showlegend = 1  
+    position = 'right'  
+]  
+</code></pre>
+</li>
+<li>
+<p>A Multiple Series Chart  </p>
+
+<pre><code>[yuichart  
+    title='Five-Year Sales by Month'  
+    cataxistitle='Month'  
+    valueaxis1title='Sales'  
+    valueaxis1prefix = '$'  
+    filename = 'seriesChart.csv'  
+    valueaxis1decimalplaces = 0  
+    showmarkers = 1  
+    showlegend = 1  
+    position = 'right'  
+    hgridlines= 1  
+    vgridlines= 1  
+]  
+</code></pre>
+</li>
+</ol><h4>Notes:</h4>
+
+<p>To display a leged  </p>
+
+<ul>
+<li> set showlegend to 1<br>
+</li>
+<li> set position to 'top', 'bottom', left', or 'right'<br>
+</li>
+</ul><p>the default position is 'right'</p>
+
+<h3>The yuidatatable Shortcode</h3>
+
+<h4>A Sortable DataTable</h4>
+
+<pre><code>    [yuidatatable  
+        filename = 'test3.csv'  
+        caption='Multiple-Series Data Table'  
+        sortable=1  
+    ]  
+</code></pre>
+
+<h3>The yuitabview Shortcode</h3>
+
+<ol>
+<li>
+<p>A Simple example with HTML markup  </p>
+
+<pre><code>[yuitabview]  
+    [yuitab title='But I Must Explain']  
+        &lt;h2&gt;But I Must Explain&lt;/h2&gt;
+        &lt;p&gt;Sed ut perspiciatis unde ...&lt;/p   
+    [/yuitab]  
+    [yuitab title='Sed Ut Pespiciatis']  
+        &lt;h2&gt;Sed Ut Pespiciatis&lt;/h2&gt;
+        &lt;p&gt;But I must explain to you how all this mistaken...&lt;/p     
+    [/yuitab]  
+    [yuitab title='On the other Hand']  
+        &lt;h2&gt;On the other Hand&lt;/h2&gt;
+        &lt;p&gt;At vero eos et accusamus et iusto odio...&lt;/p  
+    [/yuitab]  
+[/yuitabview]  
+</code></pre>
+</li>
+<li>
+<p>In this example, tabs contain charts and DataTables  </p>
+
+<pre><code>[yuitabview]  
+    [yuitab title="But I Must Explain"]  
+        &lt;h2&gt;But I Must Explain&lt;/h2   
+        &lt;p&gt;Sed ut perspiciatis unde omnis...&lt;/p  
+    [/yuitab]  
+    [yuitab title="Weekday Taxes"]   
+        [yuichart  
+        embed = 1   
+        index = 1  
+        type='pie'  
+        filename = 'pieChart.csv'  
+        ...  
+        ]  
+    [/yuitab]  
+    [yuitab title="Five-Year Sales by Month"]   
+        [yuichart]  
+        embed = 1   
+        index = 2  
+        title='Five-Year Sales by Month'  
+        filename = 'seriesChart.csv'  
+        showmarkers = 1  
+        ...  
+        ]  
+    [/yuitab]  
+    [yuitab title="Five-Year Sales by Month Data"]  
+        [yuidatatable  
+        filename = 'tableData.csv'  
+        caption='Multiple-Series Data Table'  
+        sortable=1  
+        ]  
+    [/yuitab]  
+[/yuitabview]  
+</code></pre>
+</li>
+</ol><h4>Notes:</h4>
+
+<p>When embedding a chart widget inside a tab panel, the following shortcode attributes must be set as follows:  </p>
+
+<ol>
+<li> embed = 1<br>
+</li>
+<li> index = x<br>
+</li>
+</ol><p>where x is the index of the tab in which the chart is embedded. Indices begin with 0 for the first tab, then 1, 2, etc...</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Yui-widgets-plugin maintained by <a href="https://github.com/skarred">skarred</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>

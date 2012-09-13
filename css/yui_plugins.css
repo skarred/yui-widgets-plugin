@@ -4,6 +4,18 @@
 		padding-left: 1.5em;
 	}
 
+.yui-wp-plugin-wrapper {
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+	padding:1px 1px 11px 1px;
+	border-color:#D4D8EB;
+	border-width:1px;
+	border-style:solid;
+	box-shadow:0px 0px 10px rgb(191, 191, 191);
+	margin:20px;
+	padding:10px 0 20px 0;
+}
 
 	.yui3-skin-sam .yui3-paginator-rpp-options
 	{
@@ -20,6 +32,16 @@
 	box-shadow:0px 0px 10px rgb(191, 191, 191);
 	margin:20px;
 }
+.yui-wp-plugin-wrapper > .yui-wp-charts {
+	-moz-border-radius:0px;
+	-webkit-border-radius:0px;
+	border-radius:0px;
+	padding:1px 1px 11px 1px;
+	border:none;
+	box-shadow:none;
+	margin:0 0 10px 0;
+
+}
 .yui3-chartlegend-content.yui3-widget-content-expanded span{
 	white-space: nowrap;
 }
@@ -32,7 +54,7 @@
 }
 .yui-wp-charts h4.yui-chart-title{
 	padding:0!important;
-	margin:10px 0 0 0!important;
+	margin:10px 0!important;
 	text-align:center!important;
 	font-weight:500!important;
 }
@@ -53,10 +75,25 @@
 	padding: 0;
 
 }
+.yui-wp-plugin-wrapper > .yui-wp-datable {
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+	border-color:#dad8c9!important;
+	border-width:1px;
+	border-style:solid;
+	box-shadow:none;
+	margin:10px 40px;
+	padding: 0;
+	width:220px;
+}
 .yui-wp-charts .yui3-numericaxis .axisTitle{
 	padding-bottom:11px;
 }
-
+.yui-wp-plugin-wrapper > .yui-wp-datable table.yui3-datatable-table th.yui3-datatable-header,
+.yui-wp-plugin-wrapper > .yui-wp-datable table.yui3-datatable-table td.yui3-datatable-cell{
+	white-space:nowrap;
+}
 /* datable */
 .yui-wp-datable table.yui3-datatable-table td.yui3-datatable-cell input{
 	border:1px solid #bbb!important;
@@ -90,7 +127,24 @@
 	margin:0!important;
 	font-size:1.1em;
 }
-.yui-wp-datable table.yui3-datatable-table td.yui3-datatable-cell input.yiv-required.qui.
+.yui-wp-plugin-wrapper > .yui-wp-datable caption.yui3-datatable-caption{
+	margin:-1px!important;
+	font-size:1em!important;
+	color:#000!important;
+	font-style:normal;
+	font-family: Trebuchet MS,Helvetica,sans-serif!important;
+	padding-top:0.4em!important;
+	padding-bottom:0.4em!important;
+	background-color:#FAF9F2!important;
+	-moz-border-radius:10px 10px 0 0;
+	-webkit-border-radius:10px 10px 0 0;
+	border-radius:10px 10px 0 0;
+	border-color:#dad8c9!important;
+	border-width:1px;
+	border-style:solid;
+	border-bottom:none;
+}
+.yui-wp-datable table.yui3-datatable-table td.yui3-datatable-cell input.yiv-required.quickedit-field,
 .yui-wp-datable table.yui3-datatable-table td.yui3-datatable-cell input.quickedit-field{
 	width: 90%!important;
 }
@@ -135,7 +189,7 @@ button.quickedit-copy-down{
 
 	.layout-bd .layout-m-hd p,
 	.layout-bd .layout-m-ft p {margin:0;}
-	
+
 	.layout-bd .layout-m-ft h4,
 	.layout-bd .layout-m-hd h4 {margin:5px 10px;text-align:center;display:block!important;}
 
@@ -172,17 +226,17 @@ button.quickedit-copy-down{
 
 .yui3-panel-content {
 	font-family: "Lucida Grande",Arial,sans-serif!important;
-	background-color: transparent!important;  
+	background-color: transparent!important;
 	border: none!important;
-	-moz-box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.35)!important;
-	-webkit-box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.35)!important;
+	-moz-box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.35)!important;
+	-webkit-box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.35)!important;
 	box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.35)!important;
 	text-align:left!important;
 	margin:0!important;
 	padding:0!important;
 }
 .yui3-panel .yui3-widget-hd{
-	background-color: #B6BFDA!important;  
+	background-color: #B6BFDA!important;
 	color: #fff;
 	font-size: 16px;
 	font-weight: bold;
@@ -203,7 +257,7 @@ button.quickedit-copy-down{
 }
 
 .yui3-panel .yui3-widget-bd {
-	background-color: #ECEFFB!important;  
+	background-color: #ECEFFB!important;
 	padding: 0.4em 0.6em 0.5em;
 	margin:0!important;
 }
@@ -269,7 +323,7 @@ div.forgetmenot{
 	cursor:pointer;
 }
 .formmgr-powered-text{
-	
+
 	font-size: 10px;
 	text-align:center;
 	margin-top:15px;
@@ -291,3 +345,102 @@ html[xmlns] .clearfix{
 	height: 1%;
 }
 
+
+
+.yui3-skin-sam  .yui3-datatable-footer {
+    border-right: 1px solid #CBCBCB;
+}
+
+.yui3-skin-sam  .yui3-datatable-footer table {
+    border: 0 none;
+}
+
+.yui3-skin-sam  .yui3-datatable-footer tr {
+    border-top: 1px solid black;
+}
+
+.yui3-skin-sam  .yui3-datatable-footer th {
+    background: #fff url("http://yui.yahooapis.com/3.6.0pr1/build/assets/skins/sam/sprite.png") repeat-x 0 0;
+    background-image: -webkit-linear-gradient(transparent 40%, rgba(0,0,0,0.21));
+    background-image: -moz-linear-gradient(top,transparent 40%,rgba(0,0,0,0.21));
+    background-image: -ms-linear-gradient(transparent 40%, rgba(0,0,0,0.21));
+    background-image: -o-linear-gradient(transparent 40%, rgba(0,0,0,0.21));
+    background-image: linear-gradient(transparent 40%, rgba(0,0,0,0.21));
+    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: -moz-use-text-color #CBCBCB -moz-use-text-color -moz-use-text-color;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    color: #000000;
+    font-weight: normal;
+    text-align: left;
+    text-shadow: 0 1px 1px #FFFFFF;
+    vertical-align: middle;
+    white-space: nowrap;
+    font-size: inherit;
+    margin: 0;
+    overflow: visible;
+}
+
+.yui3-skin-sam  .yui3-datatable-footer td {
+    border-left: 1px solid #CBCBCB;
+    font-size: inherit;
+    margin: 0;
+    overflow: visible;
+    padding: 4px 10px;
+}
+
+.yui3-skin-sam  .yui3-datatable-ft td,
+.yui3-skin-sam  .yui3-datatable-ft th,
+.yui3-skin-sam  .yui3-datatable-footer td,
+.yui3-skin-sam  .yui3-datatable-footer th {
+    border-top: 1px solid #CBCBCB;
+}
+
+/* was .yui3-datatable-footer  */
+.yui3-skin-sam  .yui3-datatable-ft  th div.yui3-datatable-liner div.align-left, td div.align-left,
+.yui3-datatable-liner div.align-left, .yui3-datatable-liner span.align-left {
+    text-align: left;
+}
+
+.yui3-skin-sam  .yui3-datatable-ft  th.align-center, td.align-center, .yui3-datatable-liner div.align-center, .yui3-datatable-liner span.align-center {
+    text-align: center;
+}
+
+.yui3-skin-sam  .yui3-datatable-ft  th div.align-right, td div.align-right {
+    text-align: right;
+}
+
+.yui3-skin-sam  th.align-right,
+.yui3-skin-sam  td.align-right {
+    text-align: right;
+}
+
+.yui3-skin-sam  .yui3-datatable-ft  td div.yui3-datatable-liner div.align-right {
+    text-align: right;
+}
+
+/*
+	.yui3-skin-sam  .yui3-datatable-ft  th div.align-right {
+		text-align: right;
+	}
+
+*/
+/*   added hack for TBODY columns  */
+
+.yui3-skin-sam .yui3-datatable-liner div.align-left, span.align-left {
+    text-align: left;
+}
+
+.yui3-skin-sam .yui3-datatable-liner div.align-center, span.align-center {
+    text-align: center;
+}
+
+.yui3-skin-sam .yui3-datatable-liner div.align-right, span.align-right {
+    text-align: right;
+}
+ 

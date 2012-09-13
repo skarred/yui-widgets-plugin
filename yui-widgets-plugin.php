@@ -10,7 +10,7 @@ Copyright 2011. Serge Karalli
 License:GPL2
 */
 
-/*	Copyright 2012	
+/*	Copyright 2012
 	Serge Karalli	(email:ska44ed@gmail.com)
 
 	This program is free software; you can redistribute it and/or modify
@@ -46,12 +46,15 @@ define( 'YUI_WIDGETS_PLUGIN_JSDATA_MAXAGE', 0.007 );
 /* helper files */
 include('csv2JSON.php');
 include('JSONindent.php');
+include('csv2JSON4pareto.php');
+include('csv2JSON4histogram.php');
+include('csv2JSON4controlCharts.php');
+include('ttf_pixel.php');
 /* widget classes */
 include (YUI_WIDGETS_PLUGIN_CLASS_PATH.'yui_datatable.class.php');
 include (YUI_WIDGETS_PLUGIN_CLASS_PATH.'yui_charts.class.php');
+include (YUI_WIDGETS_PLUGIN_CLASS_PATH.'yui_magseven.class.php');
 include (YUI_WIDGETS_PLUGIN_CLASS_PATH.'yui_TabView.class.php');
-//include (YUI_WIDGETS_PLUGIN_CLASS_PATH.'yui_tabs2.class.php');
-
 
 /* admin functions */
 function custom_menu_page(){
@@ -71,22 +74,23 @@ function tabview_options_page(){
 }
 
 class YUI_Widgets_Plugin{
-	# 
+	#
 	# Private
-	# 
+	#
 	static $add_script= false;
 
-	
-	
+
+
 	function init(){
 		register_activation_hook( __FILE__, array( __CLASS__,'yui_widgets_plugin_install') );
 		register_deactivation_hook( __FILE__, array( __CLASS__, 'yui_widgets_plugin_uninstall') );
 		add_shortcode( 'yuidatatable', array( 'YUI_DataTable_Plugin', 'yuidatatable_shortcode' ) );
 		add_shortcode( 'yuichart', array( 'YUI_Charts_Plugin', 'yuichart_shortcode' ));
+		add_shortcode( 'magseven', array( 'YUI_Mag_Seven_Plugin', 'yui_magseven_shortcode' ));
 		add_shortcode( 'yuitabview', array( 'YUI_TabView_Plugin', 'yuitabview_shortcode' ) ); // The shell
 		add_shortcode( 'yuitab', array( 'YUI_TabView_Plugin', 'yuitabs_shortcode' ) ); // Individual tab
 
-		wp_register_script('yui-min', 'http://yui.yahooapis.com/3.5.1/build/yui/yui-min.js', NULL, '3.5.1', false);
+		wp_register_script('yui-min', 'http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js', NULL, '3.6.0', false);
 		wp_register_style('yui-plugins', YUI_WIDGETS_PLUGIN_CSS_URL.'yui_plugins.css',false,'1.0.0','all');
 
 		add_action( 'wp_head', array( __CLASS__, 'add_script') );
@@ -126,31 +130,31 @@ class YUI_Widgets_Plugin{
 		add_option('yui_version', '3.5.1',null, 'yes');
 		add_option('yui_datatable_default_option', 'datatable',null, 'yes');
 		add_option('yui_datatable_options',
-			array(	'datatable', 
-					'datatable-datasource', 
-					'datatable-scroll', 
-					'datatable-sort', 
-					'datatype-number-format', 
-					'gallery-datatable-row-expansion', 
-					'gallery-datatable-state', 
-					'gallery-layout-datatable', 
-					'gallery-paginator', 
-					'gallery-quickedit', 
+			array(	'datatable',
+					'datatable-datasource',
+					'datatable-scroll',
+					'datatable-sort',
+					'datatype-number-format',
+					'gallery-datatable-row-expansion',
+					'gallery-datatable-state',
+					'gallery-layout-datatable',
+					'gallery-paginator',
+					'gallery-quickedit',
 					'gallery-treeble',
-					'dataschema', 
-					'gallery-datatable-footer' 
+					'dataschema',
+					'gallery-datatable-footer'
 				),null, 'yes');
 		add_option('yui_chart_default_type', 'line',null, 'yes');
 		add_option('yui_chart_types',
-			array(	'combo', 
-					'column', 
-					'bar', 
-					'line', 
-					'marker', 
-					'area', 
-					'spline', 
-					'areaspline', 
-					'combospline', 
+			array(	'combo',
+					'column',
+					'bar',
+					'line',
+					'marker',
+					'area',
+					'spline',
+					'areaspline',
+					'combospline',
 					'pie'
 		//add_option('yui_tabview_default_option');
 		//add_option('yui_tabview_default_type');
@@ -159,7 +163,7 @@ class YUI_Widgets_Plugin{
 				),null, 'yes');
 		return;
 	}
-	
+
 	function yui_widgets_plugin_uninstall() {
 		delete_option('yui_version');
 		delete_option('yui_datatable_default_option');
@@ -172,17 +176,17 @@ class YUI_Widgets_Plugin{
 		//delete_option('yui_tabs_default_type');
 		return;
 	}
-	
+
 	function init_admin(){
 		add_action('admin_menu', array(__CLASS__, 'yui_widgets_plugin_menu'));
 	}
-	
+
 	function yui_widgets_plugin_menu(){
 		if(function_exists('add_menu_page')){
 			add_menu_page(
 				'YUI Plugins',
-				'YUI Plugins', 
-				'administrator', 
+				'YUI Plugins',
+				'administrator',
 				basename(__FILE__),	//menu_slug
 				'custom_menu_page'
 			);
@@ -190,8 +194,8 @@ class YUI_Widgets_Plugin{
 		if(function_exists('add_submenu_page')){
 			add_submenu_page(
 				basename(__FILE__),
-				'Please Donate', 
-				'Please Donate', 
+				'Please Donate',
+				'Please Donate',
 				'administrator',
 				'yui-plugins-donate',
 				'please_donate_page'
@@ -199,7 +203,7 @@ class YUI_Widgets_Plugin{
 		}
 		if(function_exists('add_submenu_page')){
 			add_submenu_page(
-				basename(__FILE__), 
+				basename(__FILE__),
 				'YUI DataTable',
 				'YUI DataTable',
 				'administrator',
@@ -210,7 +214,7 @@ class YUI_Widgets_Plugin{
 		if(function_exists('add_submenu_page')){
 			add_submenu_page(
 				//'yui-widgets-plugin.php'
-				basename(__FILE__), 
+				basename(__FILE__),
 				'YUI Charts',
 				'YUI Charts',
 				'administrator',
@@ -221,7 +225,7 @@ class YUI_Widgets_Plugin{
 		if(function_exists('add_submenu_page')){
 			add_submenu_page(
 				//'yui-widgets-plugin.php'
-				basename(__FILE__), 
+				basename(__FILE__),
 				'YUI TabView',
 				'YUI TabView',
 				'administrator',
@@ -230,7 +234,7 @@ class YUI_Widgets_Plugin{
 			);
 		}
 	}
-	
+
 	function add_script(){
 		if (self::$add_script) wp_print_scripts('yui-min');
 	}

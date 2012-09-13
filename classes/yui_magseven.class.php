@@ -1,5 +1,5 @@
 <?php
-class YUI_Charts_Plugin{
+class YUI_Mag_Seven_Plugin{
 	#
 	# Shortcode input vars
 	#
@@ -94,6 +94,30 @@ class YUI_Charts_Plugin{
 	static $att_vax2max;
 
 	#
+	# Pareto Axis
+	#
+	static $att_paxTitle;					# <string> APPLIES TO:right axis
+	static $att_paxPosition;				# {top, bottom, left, right}; DEFAULT:left
+	static $att_paxTitleRotation;			# <number> APPLIES TO:right axis
+	static $att_paxTitleOpacity;			# <number>
+	static $att_paxLabelRotation;			# <number> APPLIES TO:right axis
+	static $att_paxMajorTicsDisplay;		# {inside, outside, cross, none}; DEFAULT:inside
+	static $att_paxMajorTicsLength;			# <number>; DEFAULT:4
+	static $att_paxLabelPrefix;				# <string>; DEFAULT:''
+	static $att_paxLabel000Separator;		# <string>; DEFAULT:''; EXAMPLE:','
+	static $att_paxLabelDecimalSeparator;	# <string>; DEFAULT:''; EXAMPLE:'.'
+	static $att_paxLabelDecimalPlaces;		# <number>; DEFAULT:0
+	static $att_paxLabelSuffix;				# <string>; DEFAULT:''; EXAMPLE:'%'
+	static $att_paxmin;
+	static $att_paxmax;
+
+	#
+	# Histogram Axis
+	#
+	static $att_histBarColor;				# <string> APPLIES TO:Histogram Bars
+	static $att_histBins;					# <string> APPLIES TO:Number of Histogram Data Bins
+
+	#
 	# Marker Series
 	#
 	static $att_trendLine;					# {true, false}; DEFAULT:false; APPLIES TO:add trendline?
@@ -106,6 +130,7 @@ class YUI_Charts_Plugin{
 	static $att_delimiter;
 	static $att_filename;
 	static $att_JSONchartData;
+	static $att_abcTableData;
 	static $att_request = "JSON";
 	static $array_keys;
 	static $array_title;
@@ -123,7 +148,8 @@ class YUI_Charts_Plugin{
 	static $att_TabSet;
 	static $list_JSON;
 
-	function yuichart_shortcode($atts){
+
+	function yui_magseven_shortcode($atts){
 		extract( shortcode_atts( array(
 			# Shortcode input vars
 				'id'							 =>	'yuiwiget',
@@ -140,6 +166,7 @@ class YUI_Charts_Plugin{
 
 			# Chart Structure
 				'type'							 =>	'combo',
+				'bins'							 =>	6,
 				'stacked'						 =>	false,
 				'trendline'						 =>	false,
 				'interaction'					 =>	'',
@@ -208,6 +235,23 @@ class YUI_Charts_Plugin{
 				'vax2000separator'			 =>	',',
 				'vax2decimalseparator'		 =>	'.',
 				'vax2decimalplaces'			 =>	0,
+
+			# Pareto CumPercent Axis
+				'paxtitle'					 =>	'Cumulative Percent Usage',
+				'paxposition'				 =>	'right',
+				'paxmin'					 =>	null,
+				'paxmax'					 =>	110,
+				'paxtitlerotation'			 =>	'-90',
+				'paxtitleopacity'			 =>	1,
+				'paxlabelrotation'			 =>	'0',
+				'paxmajorticsdisplay'		 =>	'inside',		 # DEFAULT:inside
+				'paxmajorticslength'		 =>	'4',
+				'paxprefix'					 =>	null,
+				'paxsuffix'					 =>	'%',
+				'pax000separator'			 =>	',',
+				'paxdecimalseparator'		 =>	'.',
+				'paxdecimalplaces'			 =>	0,
+
 
 			# Chart Data
 				'catdata'					 =>	'',
@@ -297,6 +341,22 @@ class YUI_Charts_Plugin{
 			self::$att_vax2min = $vax2min;
 			self::$att_vax2max = $vax2max;
 
+		# Pareto CumPercent Axis
+			self::$att_paxTitle = $paxtitle;
+			self::$att_paxPosition = $paxposition;
+			self::$att_paxTitleRotation = (int) $paxtitlerotation;
+			self::$att_paxTitleOpacity = (int) $paxtitleopacity;
+			self::$att_paxLabelRotation = (int) $paxlabelrotation;
+			self::$att_paxLabelPrefix = $paxprefix;
+			self::$att_paxLabelSuffix = $paxsuffix;
+			self::$att_paxLabel000Separator = $pax000separator;
+			self::$att_paxLabelDecimalSeparator = $paxdecimalseparator;
+			self::$att_paxLabelDecimalPlaces = (int) $paxdecimalseparator;
+			self::$att_paxMajorTicsDisplay = $paxmajorticsdisplay;
+			self::$att_paxMajorTicsLength = $paxmajorticslength;
+			self::$att_paxmin = $paxmin;
+			self::$att_paxmax = $paxmax;
+
 		# MarkerSeries
 			if(self::$att_chartType === "marker") self::$att_trendLine = $trendline;
 
@@ -307,6 +367,53 @@ class YUI_Charts_Plugin{
 			self::$att_filename = $filename;
 			self::$att_delimiter = $delimiter;
 			self::$att_seriesData = file_get_contents(YUI_WIDGETS_PLUGIN_DATA_URL.self::$att_filename);
+			if(self::$att_chartType === "xbar"){
+				list ($p0, $p1) = csv_to_PARETO_xBar(self::$att_seriesData,self::$att_delimiter,'x');
+				self::$att_JSONchartData = $p1;
+				self::$array_keys = $p0;
+				self::$att_catKey = self::$array_keys[0];
+				self::$att_series1Keys = "";
+				for ($k = 1; $k<count(self::$array_keys); $k++)
+				{
+					if($k == (count(self::$array_keys)-1)){
+						self::$att_series1Keys .= "'".self::$array_keys[$k]."'";
+					}else{
+						self::$att_series1Keys .= "'".self::$array_keys[$k]."',";
+					}
+				}
+			}elseif(self::$att_chartType === "rchart"){
+				list ($p0, $p1) = csv_to_PARETO_xBar(self::$att_seriesData,self::$att_delimiter,'r');
+				self::$att_JSONchartData = $p1;
+				self::$array_keys = $p0;
+				self::$att_catKey = self::$array_keys[0];
+				self::$att_series1Keys = "";
+				for ($k = 1; $k<count(self::$array_keys); $k++)
+				{
+					if($k == (count(self::$array_keys)-1)){
+						self::$att_series1Keys .= "'".self::$array_keys[$k]."'";
+					}else{
+						self::$att_series1Keys .= "'".self::$array_keys[$k]."',";
+					}
+				}
+			}elseif(self::$att_chartType === "abc"){
+				list ($p0, $p1, $p2, $p3) = csv_to_ABC(self::$att_seriesData,self::$att_delimiter,'all');
+				self::$att_vax1max = $p0;
+				self::$array_title = $p1;
+				self::$att_JSONchartData = $p2;
+				self::$att_abcTableData= $p3;
+			}elseif(self::$att_chartType === "pareto"){
+				list ($p0, $p1, $p2) = csv_to_PARETO(self::$att_seriesData,self::$att_delimiter,'all');
+				self::$att_vax1max = $p0;
+				self::$array_title = $p1;
+				self::$att_JSONchartData = $p2;
+			}elseif(self::$att_chartType === "histogram"){
+				self::$att_histBins=$bins;								# <string> APPLIES TO:Number of Histogram Data Bins
+				list ($p0, $p1) = self::$att_JSONchartData  = csv_to_histogram(self::$att_seriesData,6);
+				self::$att_catKey = 'interval';
+				self::$att_catAxisTitle = 'Interval';
+				self::$att_JSONchartData = $p1;
+			}elseif($type === "marker"){
+				self::$att_chartType = 'markerseries';
 				if (self::$att_trendLine){
 					list ($p0, $p1) = csv_to_JSON_add_trend(self::$att_seriesData,self::$att_delimiter);
 				}else{
@@ -324,19 +431,90 @@ class YUI_Charts_Plugin{
 						self::$att_series1Keys .= "'".self::$array_keys[$k]."',";
 					}
 				}
+			}
+
 
 		# Shortcode input vars
 			switch ($type) {
-				case "pie":
-					self::$att_chartId = $id.uniqid('_pie_');
+				case "xbar":
+					self::$att_chartId = $id.uniqid('_xbar_');
+					break;
+				case "rchart":
+					self::$att_chartId = $id.uniqid('_rchart_');
 					break;
 				case "combo":
 					self::$att_chartId = $id.uniqid('_combo_');
 					break;
 				case "marker":
-					self::$att_chartType = 'markerseries';
 					self::$att_chartId = $id.uniqid('_marker_');
 					self::$att_catType = 'numeric';
+					break;
+				case "pareto":
+					self::$att_chartId = $id.uniqid('_pareto_');
+					self::$att_catType = 'category';
+					self::$att_catKey = 'Item';
+					self::$att_height = '400px';
+					self::$att_series1Keys = "'Usage'";
+					self::$att_showMarkers = 1;
+					self::$att_paxKeys = 'CumPercent';
+					self::$att_catAxisTitle = self::$array_title[0];
+					self::$att_catAxisLabelRotation = '-90';
+					self::$att_catAxisMajorTicsDisplay = 'inside';
+					self::$att_catAxisMajorTicsLength = '4';
+					self::$att_vax1Title = self::$array_title[1];
+					self::$att_paxTitle = 'Cumulative Percent Usage';
+					self::$att_paxPosition = 'right';
+					self::$att_paxTitleRotation = '-90';
+					self::$att_paxTitleOpacity = 1;
+					self::$att_paxLabelRotation = '0';
+					self::$att_paxLabelPrefix = $paxprefix;
+					self::$att_paxLabelSuffix = "%";
+					self::$att_paxLabel000Separator = ',';
+					self::$att_paxLabelDecimalSeparator = ".";
+					self::$att_paxLabelDecimalPlaces = 0;
+					self::$att_paxmin = $paxmin;
+					self::$att_paxmax = 110;
+					self::$att_paxMajorTicsDisplay = $paxmajorticsdisplay;
+					self::$att_paxMajorTicsLength = $paxmajorticslength;
+					self::$att_legendPosition = 'bottom';
+					break;
+				case "abc":
+					self::$att_chartId = $id.uniqid('_abc_');
+					self::$att_catType = 'category';
+					self::$att_catKey = 'Item';
+					self::$att_height = '600px';
+					self::$att_series1Keys = "'aUsage','bUsage','cUsage'";
+					self::$att_showMarkers = 1;
+					self::$att_paxKeys = 'CumPercent';
+					self::$att_catAxisTitle = self::$array_title[0];
+					self::$att_catAxisLabelRotation = '-90';
+					self::$att_catAxisMajorTicsDisplay = 'inside';
+					self::$att_catAxisMajorTicsLength = '4';
+					self::$att_vax1Title = self::$array_title[1];
+					self::$att_paxTitle = 'Cumulative Percent Usage';
+					self::$att_paxPosition = 'right';
+					self::$att_paxTitleRotation = '-90';
+					self::$att_paxTitleOpacity = 1;
+					self::$att_paxLabelRotation = '0';
+					self::$att_paxLabelPrefix = $paxprefix;
+					self::$att_paxLabelSuffix = "%";
+					self::$att_paxLabel000Separator = ',';
+					self::$att_paxLabelDecimalSeparator = ".";
+					self::$att_paxLabelDecimalPlaces = 0;
+					self::$att_paxmin = $paxmin;
+					self::$att_paxmax = 110;
+					self::$att_paxMajorTicsDisplay = $paxmajorticsdisplay;
+					self::$att_paxMajorTicsLength = $paxmajorticslength;
+					self::$att_legendPosition = 'bottom';
+					break;
+				case "histogram":
+					self::$att_chartId = $id.uniqid('_histogram_');
+					self::$att_histBarColor = 'lime';							# <string> APPLIES TO:Histogram Bars
+					self::$att_catType = 'category';
+					self::$att_vax1Title = 'Frequency';
+					self::$att_series1Keys = "'frequency'";
+					self::$att_vax1Position = $vax1position;
+					self::$att_vax1TitleRotation = (int) $vax1titlerotation;
 					break;
 			}
 
@@ -351,29 +529,43 @@ class YUI_Charts_Plugin{
 			self::$att_myTooltip = "myTooltip"."_".self::$att_chartId;
 			self::$att_myLegend = "myLegend"."_".self::$att_chartId;
 
-			$yuichart_script = "<div id = '".self::$att_chartId."' class = 'yui-wp-plugin yui-wp-charts yui3-skin-sam '> </div>\n";
+			if(self::$att_chartType === "abc"){
+				$yuimagseven_script = "<div class = 'yui-wp-plugin yui-wp-plugin-wrapper yui3-skin-sam '>\n";
+				$yuimagseven_script .= "<div id = '".self::$att_chartId."' class = 'yui-wp-charts yui3-skin-sam '> </div>\n";
+				$yuimagseven_script .= "<div id = 'datatable_".self::$att_chartId."' class = 'yui-wp-datable yui3-skin-sam clearfix'> </div>\n";
+				$yuimagseven_script .= "</div>\n";
+			}else{
+				$yuimagseven_script = "<div id = '".self::$att_chartId."' class = 'yui-wp-plugin yui-wp-charts yui3-skin-sam '> </div>\n";
+			}
 
 
-			self::add_yui_charts_script();
-		return $yuichart_script;
-	}
-
-	function add_yui_charts_script(){
+			self::add_yui_mag_seven_script();
+		return $yuimagseven_script;
+	}	
+	
+	function add_yui_mag_seven_script(){
 		wp_enqueue_style( 'yui-plugins' );
 		$my_chart_data_path = YUI_WIDGETS_PLUGIN_JSDATA_PATH;
 		$my_file = YUI_WIDGETS_PLUGIN_JSDATA_PATH.self::$att_chartId.".js";
 		$my_file_url = YUI_WIDGETS_PLUGIN_JSDATA_URL.self::$att_chartId.".js";
 		$handle = fopen($my_file, 'w') or die('Cannot open file:  '.$my_file); //implicitly creates file
 
+
 		$data = "";
-		$data .= "YUI().use('node','node-core','event','charts-legend','gallery-markout','graphics', function(Y){\n";
+		$data .= "YUI({\n";    
+		$data .= "	filter:'raw',\n"; 
+		$data .= "	combine:false,\n"; 
+    	$data .= "	modules:{\n";
+        $data .= "		'datatable-footerview' : {\n";
+        $data .= "		    requires: [ 'base-build', 'datatable-base', 'view' ]\n";
+        $data .= "		}\n";
+    	$data .= "	}\n";
+		$data .= "}).use('node','node-core','event','charts-legend','gallery-markout','graphics','datatable', 'datatable-footerview', 'datatype',  function(Y){\n";
 
 
-		if(self::$att_chartType === "pie"){
-			$data .= "	pieLabelJs=true;\n";
-			$data .= "	Y.Get.js('".YUI_WIDGETS_PLUGIN_JS_URL."piechartlabelfunction.js', function (err) {\n";
+		if(self::$att_chartType === "abc"){
+			$data .= "	Y.Get.js('".YUI_WIDGETS_PLUGIN_JS_URL."dt_footerview.js', function (err) {\n";
 			$data .= "		if (err) {\n";
-			$data .= "			pieLabelJs=false;\n";
 			$data .= "			return;\n";
 			$data .= "		}\n";
 			$data .= "	});\n";
@@ -405,9 +597,6 @@ class YUI_Charts_Plugin{
 			$data .= "	width: 200,\n";
 			$data .= "	height: 300,\n";
 			$data .= "	styles: {\n";
-			if(self::$att_chartType === "pie") {
-				$data .= "		gap: 50,\n";
-			}
 			$data .= "		vAlign: 'top',\n";
 			$data .= "		hAlign: 'left',\n";
 			$data .= "		vSpacing: 8,\n";
@@ -462,8 +651,24 @@ class YUI_Charts_Plugin{
 				}
 			};
 */
-		if(self::$att_chartType !== "pie"){
 			$data .= "	var ".self::$att_myStyles." = {\n";
+			if(self::$att_chartType === "histogram"){
+				$data .= "		series:{\n";
+				$data .= "			frequency:{\n";
+				$data .= "				marker:{\n";
+				$data .= "					fill:{\n";
+				$data .= "						width: 75\n";
+				$data .= "					},\n";
+				$data .= "					border:{\n";
+				$data .= "						weight:1\n";
+				$data .= "					},\n";
+				$data .= "					width: 75\n";
+				$data .= "				}\n";
+				$data .= "			}\n";
+				$data .= "		}\n";
+				$data .= "	};\n";
+				$data .= "\n";
+			}else{
 				$data .= "		graph:{\n";
 				$data .= "			background:{\n";
 				$data .= "			shape:'rect',\n";
@@ -479,7 +684,7 @@ class YUI_Charts_Plugin{
 				$data .= "		}\n";
 				$data .= "	};\n";
 				$data .= "\n";
-		}
+			}
 
 		/* Define axes for the chart */
 		/*
@@ -532,7 +737,6 @@ class YUI_Charts_Plugin{
 					$data .= "					suffix:'".self::$att_catLabelSuffix."'\n";
 			$data .= "			},\n";
 		}
-
 		$data .= "			styles:{\n";
 		$data .= "				majorTicks:{\n";
 		$data .= "					display:'".self::$att_catAxisMajorTicsDisplay."'\n";
@@ -558,12 +762,19 @@ class YUI_Charts_Plugin{
 		$data .= "			}\n";
 		$data .= "		},\n";
 /* Define series1 Axis */
-		$data .= "		yAxis:{\n";
-		$data .= "			keys:[".self::$att_series1Keys."],\n";
-
+		if((self::$att_chartType === "pareto")Or(self::$att_chartType === "abc")){
+			$data .= "		Usage:{\n";
+			$data .= "			keys:[".self::$att_series1Keys."],\n";
+		}else{
+			$data .= "		yAxis:{\n";
+			$data .= "			keys:[".self::$att_series1Keys."],\n";
+		}
 		$data .= "			title:'".self::$att_vax1Title."',\n";
 		$data .= "			type:'numeric',\n";
-		if(self::$att_chartType === "markerseries"){
+		if(self::$att_chartType === "xbar"){
+			$data .= "			alwaysShowZero:".self::$att_alwaysShowZero.",\n";
+		}
+		if(self::$att_chartType === "rchart"){
 			$data .= "			alwaysShowZero:".self::$att_alwaysShowZero.",\n";
 		}
 		$data .= "			position:'".self::$att_vax1Position."',\n";
@@ -604,9 +815,68 @@ class YUI_Charts_Plugin{
 		$data .= "				}\n";
 		$data .= "			}\n";
 		$data .= "		}";
-		$data .= "	};\n";
-
+/* Define Pareto Right Axis */
+		if((self::$att_chartType === "pareto")Or(self::$att_chartType === "abc")){
+			$data .= "		,\n";
+			$data .= "		CumPercent:{\n";
+			$data .= "			title:'".self::$att_paxTitle."',\n";
+			$data .= "			type:'numeric',\n";
+			$data .= "			position:'right',\n";
+			$data .= "			keys:['".self::$att_paxKeys."'],\n";
+			if (self::$att_paxmin) $data .= "			minimum:".self::$att_paxmin.",\n";
+			if (self::$att_paxmax) $data .= "			maximum:110,\n";
+			$data .= "			labelFormat:{\n";
+			$data .= "					decimalSeparator:'".self::$att_paxLabelDecimalSeparator."',\n";
+			$data .= "					decimalPlaces:0,\n";
+			$data .= "					suffix:'".self::$att_paxLabelSuffix."'\n";
+			$data .= "			},\n";
+			$data .= "			styles:{\n";
+			$data .= "				majorTicks:{\n";
+			$data .= "					display:'".self::$att_paxMajorTicsDisplay."'\n";
+			$data .= "				},\n";
+			$data .= "				label:{\n";
+			$data .= "					rotation:".self::$att_paxLabelRotation.",\n";
+			if(self::$att_embedded) $data .= "					color:'#444',\n";
+			$data .= "				},\n";
+			$data .= "			  majorUnit:{count:12},\n";
+			$data .= "			  roundingUnit:10,\n";
+			$data .= "				title:{\n";
+			if(self::$att_embedded) {
+				$data .= "					color:'#152057',\n";
+				$data .= "					fontWeight:700,\n";
+			}else{
+				$data .= "					color:'#095275',\n";
+				$data .= "					fontWeight:500,\n";
+			}
+			$data .= "					rotation:".self::$att_paxTitleRotation.",\n";
+			$data .= "					alpha:".self::$att_paxTitleOpacity.",\n";
+			$data .= "					fontSize:'90%',\n";
+			$data .= "					letterSpacing:'1px',\n";
+			$data .= "					margin:{right:0,left:5,top:5,bottom:5}\n";
+			$data .= "				}\n";
+			$data .= "			}\n";
+			$data .= "		}\n";
+			$data .= "	};\n";
+		}else{
+			$data .= "	};\n";
+		}
 /* Missing: Series2 Axis */
+/* Define series for the Pareto chart */
+		if(self::$att_chartType === "pareto"){
+			$data .= "	var ".self::$att_mySeries." = [\n";
+			$data .= "		{type:'column', yKey:'Usage', yDisplayName:'".self::$att_vax1Title."', xDisplayName:'".self::$att_catAxisTitle."'},\n";
+			$data .= "		{type:'combo', yKey:'".self::$att_paxKeys."', yDisplayName:'".self::$att_paxTitle."', xDisplayName:'".self::$att_catAxisTitle."'}\n";
+			$data .= "	];\n";
+		}
+/* Define series for the abc chart */
+		if(self::$att_chartType === "abc"){
+			$data .= "	var ".self::$att_mySeries." = [\n";
+			$data .= "		{yKey:'aUsage', yDisplayName:'A Items', xDisplayName:'".self::$att_catAxisTitle."'},\n";
+			$data .= "		{yKey:'bUsage', yDisplayName:'B Items', xDisplayName:'".self::$att_catAxisTitle."'},\n";
+			$data .= "		{yKey:'cUsage', yDisplayName:'C Items', xDisplayName:'".self::$att_catAxisTitle."'},\n";
+			$data .= "		{type:'combo', yKey:'".self::$att_paxKeys."', yDisplayName:'".self::$att_paxTitle."', xDisplayName:'".self::$att_catAxisTitle."'}\n";
+			$data .= "	];\n";
+		}
 /* Define series for the MarkerSeries chart with a trendline*/
 		if((self::$att_chartType === "markerseries")And(self::$att_trendLine)){
 			$data .= "	var ".self::$att_mySeries." = [\n";
@@ -614,16 +884,15 @@ class YUI_Charts_Plugin{
 			$data .= "		{type:'combo',  showLines:true,showMarkers:false,  yKey:'Trend', yDisplayName:'Trend', xDisplayName:'".self::$att_catAxisTitle."'}\n";
 			$data .= "	];\n";
 		}
-
-
-
-
-
-
-
-
-
-
+/* Define series for the xbar and R charts*/
+		if((self::$att_chartType === "xbar")Or(self::$att_chartType === "rchart")){
+			$data .= "	var ".self::$att_mySeries." = [\n";
+			$data .= "		{type:'combo', showMarkers:true, yKey:'".self::$array_keys[1]."', yDisplayName:'".self::$array_keys[1]."', xDisplayName:'".self::$att_catAxisTitle."',styles: {line:{weight:3,alpha:1}, marker: { shape: 'circle', fill:{weight:1,alpha:0.8},over:{width:12,height:12},width:8,height:8 },width:12,height:12 } },\n";
+			$data .= "		{type:'combo', showMarkers:false, yKey:'".self::$array_keys[2]."', yDisplayName:'".self::$array_keys[2]."', xDisplayName:'".self::$att_catAxisTitle."',styles: {line:{color:'#000',weight:3,alpha:1} } },\n";
+			$data .= "		{type:'combo', showMarkers:false,   yKey:'".self::$array_keys[3]."', yDisplayName:'".self::$array_keys[3]."', xDisplayName:'".self::$att_catAxisTitle."',styles: {line:{color:'#800000',weight:3,alpha:1} } },\n";
+			$data .= "		{type:'combo',  showMarkers:false,  yKey:'".self::$array_keys[4]."', yDisplayName:'".self::$array_keys[4]."', xDisplayName:'".self::$att_catAxisTitle."',styles: {line:{color:'#800000',weight:3,alpha:1} } },\n";
+			$data .= "	];\n";
+		}
 
 /* Define tooltip for the chart */
 		$data .= "	var ".self::$att_myTooltip." = {\n";
@@ -656,6 +925,32 @@ class YUI_Charts_Plugin{
 /* Declare the chart */
 		$data .= "		var myChart = new Y.Chart({\n";
 
+			/* for a abc chart */
+			if(self::$att_chartType === 'abc'){
+				$data .= "			dataProvider:".self::$att_myDataValues.",\n";
+				$data .= "			type:'column',\n";
+				$data .= "			stacked:true,\n";
+				$data .= "			categoryKey:'Item',\n";
+				$data .= "			axes:".self::$att_myAxes.",\n";
+				$data .= "			seriesCollection:".self::$att_mySeries.",\n";
+				$data .= "			styles:".self::$att_myStyles.",\n";
+				$data .= "			showMarkers:".self::$att_showMarkers.",\n";
+				$data .= "			legend:".self::$att_myLegend.",\n";
+				$data .= "			tooltip: ".self::$att_myTooltip."\n";
+			}
+
+			/* for a pareto chart */
+			if(self::$att_chartType === 'pareto'){
+				$data .= "			dataProvider:".self::$att_myDataValues.",\n";
+				$data .= "			categoryKey:'Item',\n";
+				$data .= "			axes:".self::$att_myAxes.",\n";
+				$data .= "			seriesCollection:".self::$att_mySeries.",\n";
+				$data .= "			styles:".self::$att_myStyles.",\n";
+				$data .= "			showMarkers:".self::$att_showMarkers.",\n";
+				$data .= "			legend:".self::$att_myLegend.",\n";
+				$data .= "			tooltip: ".self::$att_myTooltip."\n";
+			}
+
 			/* for a cartesian chart */
 			if(self::$att_chartType === 'markerseries'){
 				$data .= "			dataProvider:".self::$att_myDataValues.",\n";
@@ -678,20 +973,21 @@ class YUI_Charts_Plugin{
 				$data .= "			tooltip: ".self::$att_myTooltip."\n";
 			}
 
-			/* for a pie chart */
-			if(self::$att_chartType === 'pie'){
-				$data .= "			categoryKey:'".self::$att_catKey."',\n";
-				$data .= "			seriesKeys:[".self::$att_series1Keys."],\n";
+			/* for a histogram */
+			if(self::$att_chartType === 'histogram'){
 				$data .= "			dataProvider:".self::$att_myDataValues.",\n";
-				$data .= "			type:'".self::$att_chartType."',\n";
-				$data .= "			legend:".self::$att_myLegend.",\n";
-				$data .= "			tooltip: ".self::$att_myTooltip.",\n";
-				$data .= "			seriesCollection:[\n";
-				$data .= "				{\n";
-				$data .= "					categoryKey:'".self::$att_catKey."',\n";
-				$data .= "					valueKey:".self::$att_series1Keys."\n";
-				$data .= "				}\n";
-				$data .= "			]\n";
+				$data .= "			type:'column',\n";
+				$data .= "			categoryKey:'".self::$att_catKey."',\n";
+				$data .= "			axes:".self::$att_myAxes.",\n";
+				$data .= "			seriesKeys:[".self::$att_series1Keys."],\n";
+
+				$data .= "			styles:".self::$att_myStyles.",\n";
+				$data .= "			showMarkers:".self::$att_showMarkers.",\n";
+				if(self::$att_horizontalGridlines)
+					$data .= "			horizontalGridlines:{ styles:{ line:{ color:'".self::$att_horizontalGridlinesColor."'} } },\n";
+				if(self::$att_verticalGridlines)
+					$data .= "			verticalGridlines:{styles:{ line:{ color:'".self::$att_verticalGridlinesColor."'} } },\n";
+				$data .= "			tooltip: ".self::$att_myTooltip."\n";
 			}
 
 			/* for a combo chart */
@@ -712,6 +1008,40 @@ class YUI_Charts_Plugin{
 				$data .= "			tooltip: ".self::$att_myTooltip."\n";
 			}
 
+			/* for an xBar chart */
+			if(self::$att_chartType === 'xbar'){
+				$data .= "			dataProvider:".self::$att_myDataValues.",\n";
+				$data .= "			type:'combo',\n";
+				$data .= "			categoryKey:'".self::$att_catKey."',\n";
+				$data .= "			axes:".self::$att_myAxes.",\n";
+				$data .= "			seriesCollection:".self::$att_mySeries.",\n";
+
+				$data .= "			styles:".self::$att_myStyles.",\n";
+				if(self::$att_horizontalGridlines)
+					$data .= "			horizontalGridlines:{ styles:{ line:{ color:'".self::$att_horizontalGridlinesColor."'} } },\n";
+				if(self::$att_verticalGridlines)
+					$data .= "			verticalGridlines:{styles:{ line:{ color:'".self::$att_verticalGridlinesColor."'} } },\n";
+				$data .= "			legend:".self::$att_myLegend.",\n";
+				$data .= "			tooltip: ".self::$att_myTooltip."\n";
+			}
+
+			/* for an R chart */
+			if(self::$att_chartType === 'rchart'){
+				$data .= "			dataProvider:".self::$att_myDataValues.",\n";
+				$data .= "			type:'combo',\n";
+				$data .= "			categoryKey:'".self::$att_catKey."',\n";
+				$data .= "			axes:".self::$att_myAxes.",\n";
+				$data .= "			seriesCollection:".self::$att_mySeries.",\n";
+
+				$data .= "			styles:".self::$att_myStyles.",\n";
+				$data .= "			showMarkers:0,\n";
+				if(self::$att_horizontalGridlines)
+					$data .= "			horizontalGridlines:{ styles:{ line:{ color:'".self::$att_horizontalGridlinesColor."'} } },\n";
+				if(self::$att_verticalGridlines)
+					$data .= "			verticalGridlines:{styles:{ line:{ color:'".self::$att_verticalGridlinesColor."'} } },\n";
+				$data .= "			legend:".self::$att_myLegend.",\n";
+				$data .= "			tooltip: ".self::$att_myTooltip."\n";
+			}
 		$data .= "		});\n\n";
 
 /*	Draw the chart */
@@ -720,16 +1050,108 @@ class YUI_Charts_Plugin{
 		}else{
 			$data .= "		myChart.render(yMygraf);\n";
 		}
-
-		if(self::$att_chartType === 'pie'){
-			$data .= "		drawLabels(myChart);\n";
+		if((self::$att_chartType === "pareto")Or(self::$att_chartType === "abc")){
+			$data .= "		Y.one('#mygraf_".self::$att_chartId."').all('span.axisLabel').each(function(node) {\n";
+			$data .= "			if (node.get('parentNode').hasClass('yui3-categoryaxis-content')) {\n";
+			$data .= "				node.setStyles({'whiteSpace':'normal'/*,'width':'200px'*/});\n";
+			$data .= "			}\n";
+			$data .= "		});\n";
+			$data .= "		Y.one('#mygraf_".self::$att_chartId."').all('span.axisLabel').each(function(node) {\n";
+			$data .= "			if (node.get('text') === '110%') {\n";
+			$data .= "				node.remove();\n";
+			$data .= "			}\n";
+			if (self::$att_vax1LabelPrefix){
+				$data .= "			if (node.get('text') === '".self::$att_vax1LabelPrefix.round(self::$att_vax1max,self::$att_vax1LabelDecimalPlaces)."') {\n";
+				$data .= "				node.remove();\n";
+				$data .= "			}\n";
+			} elseif (self::$att_vax1LabelSuffix){
+				$data .= "			if (node.get('text') === '".round(self::$att_vax1max,self::$att_vax1LabelDecimalPlaces).self::$att_catLabelSuffix."') {\n";
+				$data .= "				node.remove();\n";
+				$data .= "			}\n";
+			} elseif (self::$att_vax1LabelPrefix && self::$att_vax1LabelSuffix){
+				$data .= "			if (node.get('text') === '".self::$att_vax1LabelPrefix.round(self::$att_vax1max,self::$att_vax1LabelDecimalPlaces).self::$att_vax1LabelSuffix."') {\n";
+				$data .= "				node.remove();\n";
+				$data .= "			}\n";
+			} else {
+				$data .= "			if (node.get('text') === '".round(self::$att_vax1max,self::$att_vax1LabelDecimalPlaces)."') {\n";
+				$data .= "				node.remove();\n";
+				$data .= "			}\n";
+			}
+			$data .= "		});\n";
 		}
 
 		$data .= "	},'#mygraf_".self::$att_chartId."',oMychart);\n\n";
 
 
+		if(self::$att_chartType === "abc"){
+			//build DataTable Html
+			$data .= "	var datatableId = '#datatable_".self::$att_chartId."';\n";
+			
+			$data .= "	var oMyDataTable=Y.one('#datatable_".self::$att_chartId."');\n";
+			list ($a, $b) = csv_to_JSON(self::$att_abcTableData,self::$att_delimiter);
+			$datatable_JSONrows = indent($b);
+
+	    	$data .= "	var fmtPct2 = function(o) {\n";
+    		$data .= "	    return Y.DataType.Number.format( o.value, { decimalPlaces:2, suffix:'%'} );\n";
+    		$data .= "	}\n";
+
+    		$data .= "	var fmtBold = function(o) {\n";
+    		$data .= "	    var ndec = ( o.column.ndec ) ? o.column.ndec : 0;\n";
+    		$data .= "	    return Y.DataType.Number.format( o.value, {thousandsSeparator:',', decimalPlaces:ndec} );\n";
+    		$data .= "	}\n";
+
+			$data .= "	var myDataTableCols_".self::$att_chartId." =\n";
+			$data .= "		[\n";
+				$data .= "			{ key: 'Division', label: 'Division', width: '75px', className:'align-right', allowHTML: true},\n";
+				$data .= "			{ key: 'percItems', label:'% Items', width: '75px', formatter:fmtPct2 , className:'align-right', allowHTML: true},\n";
+				$data .= "			{ key: 'percUsage', label:'% Usage', width: '75px', formatter:fmtPct2 , className:'align-right', allowHTML: true}\n";
+			$data .= "		];\n\n";
+
+			// DataTable Data
+			$data .= "	var myDataTableValues_".self::$att_chartId." = ".$datatable_JSONrows.";\n";
+
+					$data .= "	Y.on('available',function() {\n";
+						$data .= "	var myLegendLeft= oMychart.one('div.yui3-chartlegend').getComputedStyle('left');\n";
+						$data .= "	myLegendLeft= (parseInt(myLegendLeft)+20).toString()+'px';\n";
+						$data .= "	oMyDataTable.addClass('clearfix').setStyles({'marginLeft':myLegendLeft});\n";
+						// DataTable
+						$data .= "		var table = new Y.DataTable({\n";
+						$data .= "			columns: myDataTableCols_".self::$att_chartId.",\n";
+						$data .= "			data: myDataTableValues_".self::$att_chartId.",\n";
+ 						$data .= "			caption:'Pareto Table',\n";
+						$data .= "			footerView:   Y.FooterView, \n";
+						$data .= "			footerConfig: {\n";
+						$data .= "				fixed:   true,\n";
+						$data .= "				heading: {\n";
+						$data .= "					colspan: 1,\n";
+						$data .= "					content: 'Totals:  ',\n";
+						$data .= "					className: 'align-right'\n";
+						$data .= "				},\n";
+						$data .= "				columns: [\n";
+           				$data .= "					{ key:'percItems',  content:'{SUM}', className:'align-right', formatter:fmtPct2 },\n";
+           				$data .= "             		{ key:'percUsage',  content:'{SUM}', className:'align-right', formatter:fmtPct2 }\n";
+            			$data .= "              ]\n";
+            			$data .= "          }\n";
+						$data .= "		});";
+						$data .= "		table.render(datatableId);\n";
+					$data .= "	},datatableId,oMyDataTable);\n";
+				}
 		
 		$data .= "});\n";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		fwrite($handle, $data);
 		fclose($handle);

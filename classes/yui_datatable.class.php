@@ -1,29 +1,31 @@
 <?php
 class YUI_DataTable_Plugin{
-	# 
+	#
 	# Shortcode input vars
-	# 
+	#
 	static $att_DataTableId			=	"";			# <string>
 	static $att_DataTableCaption	=	"";			# <string>
 	static $att_width				=	"";			# <number> DEFAULT:300
 	static $att_height				=	"";			# <number> DEFAULT:200
-	# 
+	#
 	# datatable Data
-	# 
+	#
 	static $att_filename;
-	static $att_csvJSONrows; 
+	static $att_csvJSONrows;
 	static $att_request="JSON";
 	static $att_sortable;					// DEFAULT:NULL
 											// {true, yes, 1} to make all columns sortable (e.g. sortable=1)
 											// <comma-separated list of columns to be sortable> (e.g. sortable=1)
 	static $array_keys;
-	# 
+	#
 	# Private
-	# 
-	// static $add_yui_datatable_script= false;
+	#
+	// static $add_yui_datatable_script = false;
 	static $att_seriesData;
 	static $att_delimiter;
 	static $att_yuiuse;
+	static $att_myDataTableCols;
+	static $att_myDataTableValues;
 
 	function yuidatatable_shortcode($atts){
 		extract( shortcode_atts( array(
@@ -36,27 +38,32 @@ class YUI_DataTable_Plugin{
 				'filename'						=>	'',
 				'delimiter'						=>	',',		 # DEFAULT: ','
 				'sortable'						=>	NULL,
-				
+
 		), $atts ) );
-		
 
-		YUI_Widgets_Plugin::$add_script= true;
 
-		
+		YUI_Widgets_Plugin::$add_script = true;
+
+
 		# Shortcode input vars
 			self::$att_DataTableId=$id.uniqid('_yuidatatable_');
-			self::$att_DataTableCaption= $caption;
-			self::$att_width= $width;
-			self::$att_height= $height;
-			self::$att_sortable= $sortable;
+			self::$att_DataTableCaption = $caption;
+			self::$att_width = $width;
+			self::$att_height = $height;
+			self::$att_sortable = $sortable;
 			self::$att_yuiuse=( is_null (self::$att_sortable)?'datatable':'datatable-sort');
 		# DataTable Data
-			self::$att_request= $request;
-			self::$att_filename= $filename;
-			self::$att_delimiter= $delimiter;
-			self::$att_seriesData= file_get_contents(YUI_WIDGETS_PLUGIN_DATA_URL.self::$att_filename); 
-			self::$att_csvJSONrows= csv_to_JSON(self::$att_seriesData,self::$att_delimiter,self::$att_request); 
-			self::$array_keys= csv_to_JSON(self::$att_seriesData,self::$att_delimiter,'keys');
+			self::$att_request = $request;
+			self::$att_filename = $filename;
+			self::$att_delimiter = $delimiter;
+			self::$att_seriesData = file_get_contents(YUI_WIDGETS_PLUGIN_DATA_URL.self::$att_filename);
+			list ($a, $b) = csv_to_JSON(self::$att_seriesData,self::$att_delimiter);
+			self::$array_keys = $a;
+			self::$att_csvJSONrows = $b;
+
+		#private
+			self::$att_myDataTableCols="myDataTableCols"."_".self::$att_DataTableId;
+			self::$att_myDataTableValues="myDataTableValues"."_".self::$att_DataTableId;
 		# Start Crunching
 			$yuidatatable_script="<div id='".self::$att_DataTableId."' class='yui3-skin-sam yui-wp-datable'></div>\n";
 		self::add_yui_datatable_script();
@@ -78,7 +85,7 @@ class YUI_DataTable_Plugin{
 		$data .= "	oMyDataTable.addClass('clearfix');\n";
 
 		//DataTable columns
-		$data .= "	var myDataTableCols =\n";
+		$data .= "	var ".self::$att_myDataTableCols." =\n";
 		$data .= "		[\n";
 		for ($k=0; $k<count(self::$array_keys); $k++)
 		{
@@ -95,23 +102,17 @@ class YUI_DataTable_Plugin{
 
 		// DataTable Data
 
-		$data .= "		var myDataTableValues= ";
+		$data .= "		var ".self::$att_myDataTableValues." = ";
 		$data .= indent(self::$att_csvJSONrows);
 		$data .= ";\n";
 		$data .= "		Y.on('available',function() {\n";
 		// DataTable
 		$data .= "			var table = new Y.DataTable({\n";
-		$data .= "				columns: myDataTableCols,\n";
-		$data .= "				data:myDataTableValues,\n";
-		$data .= "				caption:'";
-		$data .= self::$att_DataTableCaption;
-		$data .= "'\n";
-		$data .= "		}).render('#";
-		$data .= self::$att_DataTableId;
-		$data .= "');\n";
-		$data .= "	},'#";
-		$data .= self::$att_DataTableId;
-		$data .= "',oMyDataTable);\n";
+		$data .= "				columns: ".self::$att_myDataTableCols.",\n";
+		$data .= "				data:".self::$att_myDataTableValues.",\n";
+		$data .= "				caption:'".self::$att_DataTableCaption."'\n";
+		$data .= "		}).render('#".self::$att_DataTableId."');\n";
+		$data .= "	},'#".self::$att_DataTableId."',oMyDataTable);\n";
 		$data .= "});\n";
 
 		fwrite($handle, $data);

@@ -34,6 +34,8 @@ With this WordPress Plugin, users can add YUI widgets to their posts and pages.
 			showlegend = 1  
 		]  
 
+The rendered YUI3 pie chart can be viewed [here](http://karalli.net/archives/yui-pie-chart/).
+
 2.  A Multiple Series Chart  
 
   		[yuichart  
@@ -55,6 +57,8 @@ With this WordPress Plugin, users can add YUI widgets to their posts and pages.
 		      	hgridlines= 1
 		      	vgridlines= 1
   	      	]  
+
+The rendered YUI3 combo chart can be viewed [here](http://karalli.net/archives/yui-charts/).
 
 3. A Scatter Plot
 
@@ -84,6 +88,8 @@ With this WordPress Plugin, users can add YUI widgets to their posts and pages.
 		      	vgridlines = 1
 		]
 
+The rendered YUI3 scatter plot can be viewed [here](http://karalli.net/archives/yui-charts/).
+
 ####Notes:  
 To display a leged  
 
@@ -101,7 +107,7 @@ the default position is 'right'
 			sortable = 1  
 		]  
 
-The rendered YUI3 DataTable can be viewed [here](http://karalli.net/archives/yui-datatable/)
+The rendered YUI3 DataTable can be viewed [here](http://karalli.net/archives/yui-datatable/).
 
 ###The yuitabview Shortcode
 1.  A Simple example with HTML markup  
@@ -109,24 +115,27 @@ The rendered YUI3 DataTable can be viewed [here](http://karalli.net/archives/yui
 		[yuitabview]  
 			[yuitab title='But I Must Explain']  
 				<h2>But I Must Explain</h2>
-				<p>Sed ut perspiciatis unde ...</p	 
+				<p>Sed ut perspiciatis unde ...</p>	 
 			[/yuitab]  
 			[yuitab title='Sed Ut Pespiciatis']  
 				<h2>Sed Ut Pespiciatis</h2>
-				<p>But I must explain to you how all this mistaken...</p	 
+				<p>But I must explain to you how all this mistaken...</p>	 
 			[/yuitab]  
 			[yuitab title='On the other Hand']  
 				<h2>On the other Hand</h2>
-				<p>At vero eos et accusamus et iusto odio...</p	 
+				<p>At vero eos et accusamus et iusto odio...</p>	 
 			[/yuitab]  
 		[/yuitabview]  
+
+he rendered YUI3 TabView can be viewed [here](http://karalli.net/archives/yui-tabview/).
+
 
 2.  In this example, tabs contain charts and DataTables  
 
 		[yuitabview]  
 			[yuitab title="But I Must Explain"]  
 				<h2>But I Must Explain</h2	 
-				<p>Sed ut perspiciatis unde omnis...</p	 
+				<p>Sed ut perspiciatis unde omnis...</p>	 
 			[/yuitab]  
 			[yuitab title="Weekday Taxes"]   
 				[yuichart  
@@ -155,6 +164,8 @@ The rendered YUI3 DataTable can be viewed [here](http://karalli.net/archives/yui
 				]  
 			[/yuitab]  
 		[/yuitabview]  
+
+he rendered YUI3 TabView with enbedded YUI3 widgets can be viewed [here](http://karalli.net/archives/yui-tabs-2/).
 
 ####Notes:
 When embedding a chart widget inside a tab panel, the following shortcode attributes must be set as follows:  

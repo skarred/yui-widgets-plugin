@@ -34,7 +34,7 @@ With this WordPress Plugin, users can add YUI widgets to their posts and pages.
 			showlegend = 1  
 		]  
 
-The rendered YUI3 pie chart can be viewed [here](http://karalli.net/archives/yui-pie-chart/).
+    The rendered YUI3 pie chart can be viewed [here](http://karalli.net/archives/yui-pie-chart/).
 
 2.  A Multiple Series Chart  
 
@@ -58,7 +58,7 @@ The rendered YUI3 pie chart can be viewed [here](http://karalli.net/archives/yui
 		      	vgridlines= 1
   	      	]  
 
-The rendered YUI3 combo chart can be viewed [here](http://karalli.net/archives/yui-charts/).
+    The rendered YUI3 combo chart can be viewed [here](http://karalli.net/archives/yui-charts/).
 
 3. A Scatter Plot
 
@@ -88,10 +88,10 @@ The rendered YUI3 combo chart can be viewed [here](http://karalli.net/archives/y
 		      	vgridlines = 1
 		]
 
-The rendered YUI3 scatter plot can be viewed [here](http://karalli.net/archives/yui-charts/).
+    The rendered YUI3 scatter plot can be viewed [here](http://karalli.net/archives/yui-charts/).
 
 ####Notes:  
-To display a leged  
+To display a legend  
 
 +  set showlegend to 1  
 +  set position to 'top', 'bottom', left', or 'right'  
@@ -127,7 +127,7 @@ The rendered YUI3 DataTable can be viewed [here](http://karalli.net/archives/yui
 			[/yuitab]  
 		[/yuitabview]  
 
-he rendered YUI3 TabView can be viewed [here](http://karalli.net/archives/yui-tabview/).
+    The rendered YUI3 TabView can be viewed [here](http://karalli.net/archives/yui-tabview/).
 
 
 2.  In this example, tabs contain charts and DataTables  
@@ -165,7 +165,7 @@ he rendered YUI3 TabView can be viewed [here](http://karalli.net/archives/yui-ta
 			[/yuitab]  
 		[/yuitabview]  
 
-he rendered YUI3 TabView with enbedded YUI3 widgets can be viewed [here](http://karalli.net/archives/yui-tabs-2/).
+    The rendered YUI3 TabView with enbedded YUI3 widgets can be viewed [here](http://karalli.net/archives/yui-tabs-2/).
 
 ####Notes:
 When embedding a chart widget inside a tab panel, the following shortcode attributes must be set as follows:  
@@ -174,3 +174,128 @@ When embedding a chart widget inside a tab panel, the following shortcode attrib
 2.  index = x  
 
 where x is the index of the tab in which the chart is embedded. Indices begin with 0 for the first tab, then 1, 2, etc...
+
+###Shortcode for Specialized Charts
+1.  A Pareto Chart
+			
+		[magseven 
+			title = 'Pareto Chart' 
+			type = 'pareto'	
+			filename = 'pareto.csv'
+			showlegend = 1
+		]
+
+     The rendered Pareto Chart can be viewed [here](http://karalli.net/archives/yui-special-charts/).
+	
+2.  ABC Analysis
+
+		[magseven 
+			title = 'ABC Analysis' 
+			type = 'abc'
+			filename = 'pareto.csv'
+			showlegend = 1 
+		]
+
+     The rendered Pareto Chart can be viewed [here](http://karalli.net/archives/yui-special-charts/).
+
+3.  A Histogram
+
+		[magseven 
+			title = 'Average SAT Math Score' 
+			type = 'histogram'
+		        bins = 6
+			filename = 'histogram.csv'
+			showlegend = 1 
+		]
+
+     The rendered Pareto Chart can be viewed [here](http://karalli.net/archives/yui-special-charts/).
+
+4.  A MarkerSeries Chart or Scatter-Plot
+
+		[magseven 
+			title = 'Study Hours vs. Exam Scores' 
+			filename = 'scatter2.csv'
+			type = 'marker'
+			categorytype = 'numeric'
+			cataxtitle = 'Study Hours' 
+			alwaysShowZero = 1 
+			catmax = 9
+			catdecimalplaces = 1 
+			catlabelrotation = '-90' 
+			vax1decimalplaces = 0  
+			vax1title = 'Exam Score' 
+			vax1labelrotation = '0' 
+			vax1min = 30 
+			vax1max = 110
+			showlegend = 1 
+			hgridlines = 1 
+			vgridlines = 1 
+		]
+
+     The rendered Pareto Chart can be viewed [here](http://karalli.net/archives/yui-special-charts/).
+		
+5.  A MarkerSeries Chart with an Added Trenline
+
+		[magseven 
+			title = 'Ice Cream Sales vs. Temperature °F' 
+			filename = 'scatter.csv'
+			type = 'marker'
+			trendline = 1
+			categorytype = 'numeric'
+			cataxtitle = 'Temperature' 
+			alwaysShowZero = 0
+			catmin = 60
+			catmax = 110
+			catdecimalplaces = 0 
+			catlabelrotation = '-90' 
+			catlabelsuffix = ' °F'
+			vax1min = 110 
+			vax1max = 400
+			vax1title = 'Ice Cream Sales' 
+			vax1labelrotation = '0' 
+			vax1prefix = '\$' 
+			vax1decimalplaces = 2  
+			showlegend = 1 
+			hgridlines = 1 
+			vgridlines = 1 
+		]
+
+     The rendered Pareto Chart can be viewed [here](http://karalli.net/archives/yui-special-charts/).
+     
+6.  An Xbar Control Chart
+
+		[magseven 
+			title = 'xBar Chart' 
+			type = 'xbar'
+			filename = 'control.csv'
+			alwaysShowZero = 0 
+			catdecimalplaces = 1 
+			catlabelrotation = '-90' 
+			showlines = 0  
+			showmarkers = 0
+			showareafill = 0 
+			showlegend = 1 
+			hgridlines = 1 
+			vgridlines = 1 
+		]
+
+     The rendered Pareto Chart can be viewed [here](http://karalli.net/archives/yui-special-charts/).
+
+7.  An R Control Chart
+
+		[magseven 
+			title = 'R Chart' 
+			type = 'rchart'
+			filename = 'control.csv'
+			alwaysShowZero = 0 
+			catdecimalplaces = 1 
+			catlabelrotation = '-90' 
+			showlines = 0  
+			showmarkers = 0
+			showareafill = 0 
+			showlegend = 1 
+			hgridlines = 1 
+			vgridlines = 1 
+		]
+
+     The rendered Pareto Chart can be viewed [here](http://karalli.net/archives/yui-special-charts/).

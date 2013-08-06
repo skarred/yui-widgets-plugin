@@ -36,7 +36,7 @@ With this WordPress Plugin, users can add YUI widgets to their posts and pages.
 
 2.  A Multiple Series Chart  
 
-	[yuichart  
+	  [yuichart  
 	    title = 'Five-Year Sales by Month'
 	    filename = 'test3.csv'
 	    type = 'combo'
@@ -54,35 +54,35 @@ With this WordPress Plugin, users can add YUI widgets to their posts and pages.
 	    showlegend = 1
 	    hgridlines= 1
 	    vgridlines= 1
-	]  
+	  ]  
 
 3. A Scatter Plot
 
-  [yuichart
-    title = 'Ice Cream Sales vs Temperature °F'
-    filename = 'scatter.csv'
-    type = 'marker'
-    categorytype = 'numeric'
-    cataxtitle = 'Temperature'
-    alwaysShowZero = 0
-    catmin = 50
-    catmax = 120
-    catdecimalplaces = 0
-    catlabelrotation = '-90'
-    catlabelsuffix = ' °F'
-    vax1min = 110
-    vax1max = 420
-    vax1title='Ice Cream Sales'
-    vax1labelrotation = '0'
-    vax1prefix = '\$'
-    vax1decimalplaces = 2 
-    showlines = 0 
-    showmarkers = 1
-    showareafill = 0 
-    showlegend = 1
-    hgridlines = 1
-    vgridlines = 1
-  ]
+    [yuichart
+      title = 'Ice Cream Sales vs Temperature °F'
+      filename = 'scatter.csv'
+      type = 'marker'
+      categorytype = 'numeric'
+      cataxtitle = 'Temperature'
+      alwaysShowZero = 0
+      catmin = 50
+      catmax = 120
+      catdecimalplaces = 0
+      catlabelrotation = '-90'
+      catlabelsuffix = ' °F'
+      vax1min = 110
+      vax1max = 420
+      vax1title='Ice Cream Sales'
+      vax1labelrotation = '0'
+      vax1prefix = '\$'
+      vax1decimalplaces = 2 
+      showlines = 0 
+      showmarkers = 1
+      showareafill = 0 
+      showlegend = 1
+      hgridlines = 1
+      vgridlines = 1
+    ]
 
 ####Notes:  
 To display a leged  

@@ -54,35 +54,35 @@ With this WordPress Plugin, users can add YUI widgets to their posts and pages.
 		      	showlegend = 1
 		      	hgridlines= 1
 		      	vgridlines= 1
-  	       ]  
+  	      	]  
 
 3. A Scatter Plot
 
-    [yuichart
-      title = 'Ice Cream Sales vs Temperature °F'
-      filename = 'scatter.csv'
-      type = 'marker'
-      categorytype = 'numeric'
-      cataxtitle = 'Temperature'
-      alwaysShowZero = 0
-      catmin = 50
-      catmax = 120
-      catdecimalplaces = 0
-      catlabelrotation = '-90'
-      catlabelsuffix = ' °F'
-      vax1min = 110
-      vax1max = 420
-      vax1title='Ice Cream Sales'
-      vax1labelrotation = '0'
-      vax1prefix = '\$'
-      vax1decimalplaces = 2 
-      showlines = 0 
-      showmarkers = 1
-      showareafill = 0 
-      showlegend = 1
-      hgridlines = 1
-      vgridlines = 1
-    ]
+		[yuichart
+		      	title = 'Ice Cream Sales vs Temperature °F'
+		      	filename = 'scatter.csv'
+		      	type = 'marker'
+		      	categorytype = 'numeric'
+		      	cataxtitle = 'Temperature'
+		      	alwaysShowZero = 0
+		      	catmin = 50
+		      	catmax = 120
+		      	catdecimalplaces = 0
+		      	catlabelrotation = '-90'
+		      	catlabelsuffix = ' °F'
+		      	vax1min = 110
+		      	vax1max = 420
+		      	vax1title='Ice Cream Sales'
+		      	vax1labelrotation = '0'
+		      	vax1prefix = '\$'
+		      	vax1decimalplaces = 2 
+		      	showlines = 0 
+		      	showmarkers = 1
+		      	showareafill = 0 
+		      	showlegend = 1
+		      	hgridlines = 1
+		      	vgridlines = 1
+		]
 
 ####Notes:  
 To display a leged  
@@ -97,8 +97,8 @@ the default position is 'right'
 
 		[yuidatatable  
 			filename = 'test3.csv'  
-			caption='Multiple-Series Data Table'  
-			sortable=1  
+			caption = 'Multiple-Series Data Table'  
+			sortable = 1  
 		]  
 
 ###The yuitabview Shortcode
@@ -130,7 +130,7 @@ the default position is 'right'
 				[yuichart  
 				embed = 1   
 				index = 1  
-				type='pie'  
+				type = 'pie'  
 				filename = 'pieChart.csv'  
 				...  
 				]  
@@ -139,17 +139,17 @@ the default position is 'right'
 				[yuichart]  
 				embed = 1   
 				index = 2  
-				title='Five-Year Sales by Month'  
+				title = 'Five-Year Sales by Month'  
 				filename = 'seriesChart.csv'  
 				showmarkers = 1  
 				...  
 				]  
 			[/yuitab]  
-			[yuitab title="Five-Year Sales by Month Data"]  
+			[yuitab title = "Five-Year Sales by Month Data"]  
 				[yuidatatable  
 				filename = 'tableData.csv'  
-				caption='Multiple-Series Data Table'  
-				sortable=1  
+				caption = 'Multiple-Series Data Table'  
+				sortable = 1  
 				]  
 			[/yuitab]  
 		[/yuitabview]  

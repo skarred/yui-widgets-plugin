@@ -30,12 +30,8 @@ With this WordPress Plugin, users can add YUI widgets to their posts and pages.
 		[yuichart  
 			title='Weekday Taxes'  
 			type='pie'  
-			cataxistitle='Month'  
-			valueaxis1title='Sales'  
-			valueaxis1prefix = '$'  
 			filename = 'pieChart.csv'  
 			showlegend = 1  
-			position = 'right'  
 		]  
 
 2.  A Multiple Series Chart  

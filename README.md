@@ -101,6 +101,8 @@ the default position is 'right'
 			sortable = 1  
 		]  
 
+The rendered YUI3 DataTable can be viewed [here](http://karalli.net/archives/yui-datatable/)
+
 ###The yuitabview Shortcode
 1.  A Simple example with HTML markup  
 

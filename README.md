@@ -27,36 +27,40 @@ With this WordPress Plugin, users can add YUI widgets to their posts and pages.
 ###The yuichart Shortcode  
 1.  A Pie Chart  
 
-		[yuichart  
-			title = 'Weekday Taxes'  
-			type = 'pie'  
-			filename = 'pieChart.csv'  
-			showlegend = 1  
-		]  
+	```
+	[yuichart  
+		title = 'Weekday Taxes'  
+		type = 'pie'  
+		filename = 'pieChart.csv'  
+		showlegend = 1  
+	] 
+	```
 
     The rendered YUI3 pie chart can be viewed [here](http://karalli.net/archives/yui-pie-chart/).
 
 2.  A Multiple Series Chart  
 
-  		[yuichart  
-	  		title = 'Five-Year Sales by Month'
-		    	filename = 'test3.csv'
-		    	type = 'combo'
-		    	categorytype = 'category'
-		    	cataxtitle = 'Month'
-		    	catlabelrotation = '0'
-		    	vax1title = 'Sales'
-		    	vax1labelrotation = '0'
-		    	vax1prefix = '\$'
-		    	vax1suffix = '  '
-		    	vax1decimalplaces = 0
-		    	showareafill = 1
-		    	showlines = 1 
-		      	showmarkers = 1
-		      	showlegend = 1
-		      	hgridlines= 1
-		      	vgridlines= 1
-  	      	]  
+	```
+	[yuichart  
+  		title = 'Five-Year Sales by Month'
+	    	filename = 'test3.csv'
+	    	type = 'combo'
+	    	categorytype = 'category'
+	    	cataxtitle = 'Month'
+	    	catlabelrotation = '0'
+	    	vax1title = 'Sales'
+	    	vax1labelrotation = '0'
+	    	vax1prefix = '\$'
+	    	vax1suffix = '  '
+	    	vax1decimalplaces = 0
+	    	showareafill = 1
+	    	showlines = 1 
+	      	showmarkers = 1
+	      	showlegend = 1
+	      	hgridlines= 1
+	      	vgridlines= 1
+      	]  
+	```
 
     The rendered YUI3 combo chart can be viewed [here](http://karalli.net/archives/yui-charts/).
 

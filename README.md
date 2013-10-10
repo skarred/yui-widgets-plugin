@@ -1,7 +1,32 @@
 # yui-widgets-plugin
 
-With this WordPress Plugin, users can add YUI widgets to their posts and pages.
+With this WordPress Plugin, users can add YUI widgets to their posts and pages.  
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
+- [yui-widgets-plugin](#yui-widgets-plugin)
+	- [Supported YUI Widgets](#supported-yui-widgets)
+	- [Use shortcodes to add a widget to your post](#use-shortcodes-to-add-a-widget-to-your-post)
+		- [Available Shortcodes](#available-shortcodes)
+	- [Examples](#examples)
+		- [The yuichart Shortcode](#the-yuichart-shortcode)
+			- [A Pie Chart](#a-pie-chart)
+			- [A Multiple Series Chart](#a-multiple-series-chart)
+			- [A Scatter Plot](#a-scatter-plot)
+			- [Notes:](#notes)
+		- [The yuidatatable Shortcode](#the-yuidatatable-shortcode)
+			- [A Sortable DataTable](#a-sortable-datatable)
+		- [The yuitabview Shortcode](#the-yuitabview-shortcode)
+			- [A Simple example with HTML markup](#a-simple-example-with-html-markup)
+			- [In this example, tabs contain charts and DataTables](#in-this-example-tabs-contain-charts-and-datatables)
+			- [Notes:](#notes-1)
+		- [Shortcode for Specialized Charts](#shortcode-for-specialized-charts)
+			- [A Pareto Chart](#a-pareto-chart)
+			- [ABC Analysis](#abc-analysis)
+			- [A Histogram](#a-histogram)
+			- [A MarkerSeries Chart or Scatter-Plot](#a-markerseries-chart-or-scatter-plot)
+			- [A MarkerSeries Chart with an Added Trenline](#a-markerseries-chart-with-an-added-trenline)
+			- [An Xbar Control Chart](#an-xbar-control-chart)
+			- [An R Control Chart](#an-r-control-chart)
 
 ##Supported YUI Widgets  
 +  Charts  

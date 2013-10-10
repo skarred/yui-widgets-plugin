@@ -1,7 +1,7 @@
 # yui-widgets-plugin
 
 With this WordPress Plugin, users can add YUI widgets to their posts and pages.  
-**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+**Table of Contents**	*generated with [DocToc](http://doctoc.herokuapp.com/)*
 
 - [yui-widgets-plugin](#yui-widgets-plugin)
 	- [Supported YUI Widgets](#supported-yui-widgets)
@@ -29,31 +29,29 @@ With this WordPress Plugin, users can add YUI widgets to their posts and pages.
 			- [An R Control Chart](#an-r-control-chart)
 
 ##Supported YUI Widgets  
-+  Charts  
-   +  Pie charts  
-   +  Multiple series charts  
-   +  supports    
-      +  legend  
-      +  markers  
-      +  customization  
-+  DataTables  
-   +  Sortable  
-+  TabView  
-   +  HTML markup in tab panels  
-   +  Chart and DataTable widgets in tab panels  
-
++	Charts  
+	 +	Pie charts  
+	 +	Multiple series charts  
+	 +	supports	  
+			+	legend  
+			+	markers  
+			+	customization  
++	DataTables  
+	 +	Sortable  
++	TabView  
+	 +	HTML markup in tab panels  
+	 +	Chart and DataTable widgets in tab panels  
 [[To top]](#yui-widgets-plugin)
 
 ##Use shortcodes to add a widget to your post  
 ###Available Shortcodes  
-+  [yuichart]  
-+  [yuidatatable]  
-+  [yuitabview][yuitab title='Tab1']...[/yuitab][yuitab title='Tab2']...[/yuitab][/yuitabview]  
++	[yuichart]  
++	[yuidatatable]  
++	[yuitabview][yuitab title='Tab1']...[/yuitab][yuitab title='Tab2']...[/yuitab][/yuitabview]  
 
 ##Examples  
 ###The yuichart Shortcode  
 #### A Pie Chart  
-
 ```
 [yuichart  
 	title = 'Weekday Taxes'  
@@ -63,35 +61,39 @@ With this WordPress Plugin, users can add YUI widgets to their posts and pages.
 ] 
 ```
 
-The rendered YUI3 pie chart can be viewed [here](http://karalli.net/archives/yui-pie-chart/).  
-[[To top]](#yui-widgets-plugin)  
++ The data file [pieChart.csv](https://github.com/skarred/yui-widgets-plugin/blob/master/data/pieChart.csv) is loacated in the folder called [data](https://github.com/skarred/yui-widgets-plugin/tree/master/data).  
++ To see the complete source for the [YUI3 Pie Chart example](https://gist.github.com/skarred/6915986), look at this [Gist](https://gist.github.com/skarred/6915986).  
++ To see this [example in action](http://karalli.net/archives/yui-pie-chart/) on my [blog](http://karalli.net/), follow this [link](http://karalli.net/archives/yui-pie-chart/).  
+[[To top]](#yui-widgets-plugin)
 
 #### A Multiple Series Chart  
 
 ```
 [yuichart  
- 	title = 'Five-Year Sales by Month'
-    filename = 'test3.csv'
-    type = 'combo'
-    categorytype = 'category'
-    cataxtitle = 'Month'
-    catlabelrotation = '0'
-    vax1title = 'Sales'
-    vax1labelrotation = '0'
-    vax1prefix = '\$'
-    vax1suffix = '  '
-    vax1decimalplaces = 0
-   	showareafill = 1
-    showlines = 1 
-    showmarkers = 1
-    showlegend = 1
-    hgridlines= 1
-    vgridlines= 1
+	title = 'Five-Year Sales by Month'
+		filename = 'combo.csv'
+		type = 'combo'
+		categorytype = 'category'
+		cataxtitle = 'Month'
+		catlabelrotation = '0'
+		vax1title = 'Sales'
+		vax1labelrotation = '0'
+		vax1prefix = '\$'
+		vax1suffix = '	'
+		vax1decimalplaces = 0
+	 	showareafill = 1
+		showlines = 1 
+		showmarkers = 1
+		showlegend = 1
+		hgridlines= 1
+		vgridlines= 1
 ]  
 ```
 
-The rendered YUI3 combo chart can be viewed [here](http://karalli.net/archives/yui-charts/).  
-[[To top]](#yui-widgets-plugin)  
++ The data file [combo.csv](https://github.com/skarred/yui-widgets-plugin/blob/master/data/combo.csv) is loacated in the folder called [data](https://github.com/skarred/yui-widgets-plugin/tree/master/data).  
++ To see the complete source for the [YUI3 Combo Chart example](https://gist.github.com/skarred/6915948), look at this [Gist](https://gist.github.com/skarred/6915948).  
++ To see this [example in action](http://karalli.net/archives/yui-charts/) on my [Word Press blog](http://karalli.net/), follow this [link](http://karalli.net/archives/yui-charts/).  
+[[To top]](#yui-widgets-plugin)
 
 #### A Scatter Plot
 
@@ -123,13 +125,15 @@ The rendered YUI3 combo chart can be viewed [here](http://karalli.net/archives/y
 ]
 ```
 
-The rendered YUI3 scatter plot can be viewed [here](http://karalli.net/archives/yui-charts/).  
-[[To top]](#yui-widgets-plugin)  
++ The data file [scatter.csv](https://github.com/skarred/yui-widgets-plugin/blob/master/data/scatter.csv) is loacated in the folder called [data](https://github.com/skarred/yui-widgets-plugin/tree/master/data).  
++ To see the complete source for the [YUI3 Scatter Plot example](https://gist.github.com/skarred/6916052), look at this [Gist](https://gist.github.com/skarred/6916052).  
++ To see this [example in action](http://karalli.net/archives/yui-charts/) on my [Word Press blog](http://karalli.net/), follow this [link](http://karalli.net/archives/yui-charts/).  
+[[To top]](#yui-widgets-plugin)
 
 ####Notes:  
 To display a legend  
-+  set showlegend to 1  
-+  set position to 'top', 'bottom', left', or 'right'  
++	set showlegend to 1  
++	set position to 'top', 'bottom', left', or 'right'  
 the default position is 'right'
 
 ###The yuidatatable Shortcode  
@@ -137,13 +141,15 @@ the default position is 'right'
 
 ```
 [yuidatatable  
-	filename = 'test3.csv'  
+	filename = 'tabledata.csv'  
 	caption = 'Multiple-Series Data Table'  
 	sortable = 1  
 ]
 ```
 
-The rendered YUI3 DataTable can be viewed [here](http://karalli.net/archives/yui-datatable/).  
++ The data file [combo.csv](https://github.com/skarred/yui-widgets-plugin/blob/master/data/combo.csv) is loacated in the folder called [data](https://github.com/skarred/yui-widgets-plugin/tree/master/data).  
++ To see the complete source for the [YUI3 DataTable example](https://gist.github.com/skarred/6916663), look at this [Gist](https://gist.github.com/skarred/6916663).  
++ To see this [example in action](http://karalli.net/archives/yui-datatable/) on my [Word Press blog](http://karalli.net/), follow this [link](http://karalli.net/archives/yui-datatable/).  
 [[To top]](#yui-widgets-plugin)  
 
 ###The yuitabview Shortcode
@@ -166,7 +172,8 @@ The rendered YUI3 DataTable can be viewed [here](http://karalli.net/archives/yui
 [/yuitabview]  
 ```
 
-The rendered YUI3 TabView can be viewed [here](http://karalli.net/archives/yui-tabview/).  
++ To see the complete source for the [YUI3 Simple TabView example with HTML markup](https://gist.github.com/skarred/6916786), look at this [Gist](https://gist.github.com/skarred/6916786).  
++ To see this [example in action](http://karalli.net/archives/yui-tabview/) on my [Word Press blog](http://karalli.net/), follow this [link](http://karalli.net/archives/yui-tabview/).  
 [[To top]](#yui-widgets-plugin)  
 
 #### In this example, tabs contain charts and DataTables  
@@ -177,18 +184,18 @@ The rendered YUI3 TabView can be viewed [here](http://karalli.net/archives/yui-t
 		<h2>But I Must Explain</h2	 
 		<p>Sed ut perspiciatis unde omnis...</p>	 
 	[/yuitab]  
-	[yuitab title="Weekday Taxes"]   
+	[yuitab title="Weekday Taxes"]	 
 		[yuichart  
-		embed = 1   
+		embed = 1	 
 		index = 1  
 		type = 'pie'  
 		filename = 'pieChart.csv'  
 		...  
 		]  
 	[/yuitab]  
-	[yuitab title="Five-Year Sales by Month"]   
+	[yuitab title="Five-Year Sales by Month"]	 
 		[yuichart]  
-		embed = 1   
+		embed = 1	 
 		index = 2  
 		title = 'Five-Year Sales by Month'  
 		filename = 'seriesChart.csv'  
@@ -211,8 +218,8 @@ The rendered YUI3 TabView with enbedded YUI3 widgets can be viewed [here](http:/
 
 ####Notes:
 When embedding a chart widget inside a tab panel, the following shortcode attributes must be set as follows:  
-1.  embed = 1  
-2.  index = x  
+1.	embed = 1  
+2.	index = x  
 where x is the index of the tab in which the chart is embedded. Indices begin with 0 for the first tab, then 1, 2, etc...
 
 ###Shortcode for Specialized Charts
@@ -221,7 +228,7 @@ where x is the index of the tab in which the chart is embedded. Indices begin wi
 ```
 [magseven 
 	title = 'Pareto Chart' 
-	type = 'pareto'	
+	type = 'pareto'  
 	filename = 'pareto.csv'
 	showlegend = 1
 ]
@@ -229,7 +236,7 @@ where x is the index of the tab in which the chart is embedded. Indices begin wi
 
 The rendered Pareto Chart can be viewed [here](http://karalli.net/archives/yui-special-charts/).  
 [[To top]](#yui-widgets-plugin)
-	
+  
 #### ABC Analysis
 
 ```
@@ -250,7 +257,7 @@ The rendered Pareto Chart can be viewed [here](http://karalli.net/archives/yui-s
 [magseven 
 	title = 'Average SAT Math Score' 
 	type = 'histogram'
-    bins = 6
+		bins = 6
 	filename = 'histogram.csv'
 	showlegend = 1 
 ]
@@ -285,7 +292,7 @@ The rendered Pareto Chart can be viewed [here](http://karalli.net/archives/yui-s
 
 The rendered Pareto Chart can be viewed [here](http://karalli.net/archives/yui-special-charts/).  
 [[To top]](#yui-widgets-plugin)
-		
+	  
 #### A MarkerSeries Chart with an Added Trenline
 
 ```
